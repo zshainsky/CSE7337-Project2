@@ -1,0 +1,65 @@
+PROJECT 2 INSTRUCTIONS
+
+******************************
+******** Deliverables ********
+******************************
+
+1.	Complete code in a compressed archive (zip, tgz, etc)
+2.	A readme file with complete description of used software, installation, compilation and execution instructions OR demonstrations are encouraged, but not required.
+3.	A document with the results for the questions below.
+4.	If you worked in a team than you need a document stating who worked on what.
+
+******************************
+************ Task ************
+******************************
+
+Develop a simplified query engine. 
+Test your data only on the data in:
+http://lyle.smu.edu/~fmoore
+
+******************************
+********* Questions **********
+******************************
+
+-----------------
+     CANDIE
+-----------------
+
+1.	Use the web crawler you built in Project 1 that crawled a limited space, looking for text and html files. You will probably need to modify how you saved the words from the pages that you traversed to support this query engine. Describe in detail what you changed to support the saving of words for this project. [10 points]
+
+Notes:
+------
+We only previously saved the term frequency and document frequency (restate format, etc.).  Add inverted index – stop words
+
+Our Structure:  [FOR INVERTED INDEX ---> word: [[docID, termFreq], [docID, termFreq]]
+	{
+	 'a': [[1,2]],
+	 'banana': [[3,4], [5,2]]
+	 }
+
+Also create 'docID table' which contains a unique docID, associated url, and first twenty words of the document.
+
+
+2.	You will need a dictionary of words.  What is your definition of “word”? Will you generate the dictionary while navigating the pages or as a separate step? Explain your approach. If needed, you can define a fixed size for the dictionary based upon the results from Project1, and allowing for a 10% increase. [20 points]
+
+Don't need a fixed size because of python dynamic sizing.
+Stop and stem words (after first twenty words saved).
+As part of stopping and stemming, remove symbols.
+
+
+3.	For purposes of this project, you may assume a maximum of 20 documents. You will need to create a term frequency matrix for all documents. [20 points]
+
+Notes:
+------
+Term Frequency matrix
+docID			TERM1 	TERM2	TERM3
+11	     	     0        0       2 
+12            	 1        4       0
+
+
+-----------------
+      ZACK
+-----------------
+
+4.	The user should be able to enter multiple queries, consisting of one or more query words separated by space.  What happens if a user enters a word that is not in the dictionary? [10 points]
+5.	Compute the cosine similarity of the query against all documents. Display the measure and document URL in descending numerical order for the top N results. What value of N would you pick?  GRADUATE STUDENTS: Also include in the display, the first 20 words of the document. If you stemmed the words, this can be the stemmed version. [40 points]
