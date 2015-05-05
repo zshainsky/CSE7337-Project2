@@ -2,6 +2,10 @@ from __future__ import division
 from copy import deepcopy
 import math
 
+from InvertedIndex import InvertedIndex
+from Query import Query
+from tfidf import TFIDF
+
 #Search Test
 '''
 invIndex = {'and': {0: 1, 2: 1}, 'limited': {0: 1, 2: 1}, 'project.': {0: 1, 1: 1, 2: 1}, 'saving': {1: 1, 2: 1}, 'text': {0: 1, 2: 6}}
@@ -31,7 +35,7 @@ def createTermFrequencyMatrix(invIndex):
     print "Final:", tempDocMatrix
     return tempDocMatrix
 
-
+'''
 ###################### Document Functions ######################
 def findNumDocs(invIndex):
     numDocs = 0
@@ -103,8 +107,8 @@ def calcTF_IDF(invIndex):
 def docHandler(invIndex):
     print "Initializing Document Handler..."
     return calcTF_IDF(invIndex)
-
-
+'''
+'''
 ###################### Query Functions ######################
 def normQueryTF(frequencyDict, numTerms):
     for key, val in frequencyDict.iteritems():
@@ -211,13 +215,18 @@ def cosSimilarityHandler(docTF_IDF, queryTF_IDF):
     queryLength = calcQueryEuclideanLength(queryTF_IDF)
 
     return calcCosSimilarity(queryDocDotProducts, docLength, queryLength)
+'''
 
 def parseQuery(query, invIndex):
     #Both handlers return the respective TF_IDFs
     #docTF_IDF can be run once after crawl
-    docTF_IDF = docHandler(invIndex)
-    queryTF_IDF = queryHandler(query, invIndex)
-    cosSimByDoc = cosSimilarityHandler(docTF_IDF, queryTF_IDF)
+    tempTFIDF = TFIDF()
+    queryObj = Query(query)
+
+    docTF_IDF = tempTFIDF.docHandler(invIndex, 0)
+    queryTF_IDF = queryObj.queryHandler(queryObj.query, invIndex)
+    cosSimByDoc = queryObj.cosSimilarityHandler(docTF_IDF, queryTF_IDF)
+    print cosSimByDoc
     print "Cosine Similarity by document:", cosSimByDoc
     return cosSimByDoc
 

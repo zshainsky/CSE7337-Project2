@@ -1,17 +1,25 @@
-__author__ = 'zshainsky'
-#from InvertedIndex import InvertedIndex
-#from Parser import Parser
+from __future__ import division
+from copy import deepcopy
 import math
+
+from InvertedIndex import InvertedIndex
+#from Parser import Parser
+from tfidf import TFIDF
+
+
+
 
 class Query:
 
-    def __init__(self):
+    def __init__(self, queryString=""):
         print "Constructing Query Object!"
-        #self.invIndex = InvertedIndex()
-        self.query = ""
+        self.invIndex = InvertedIndex()
+        self.tfidf = TFIDF()
+        self.query = queryString
 
     ###################### Query Functions ######################
     def normQueryTF(self, frequencyDict, numTerms):
+        print numTerms, frequencyDict
         for key, val in frequencyDict.iteritems():
             frequencyDict[key] = val/numTerms
         return frequencyDict
@@ -49,7 +57,7 @@ class Query:
 
 
         numTerms = len(temp)
-        numDocs = findNumDocs(invIndex)
+        numDocs = self.tfidf.findNumDocs(invIndex)
 
         freqDict = self.calcQueryCollectionFrequency(temp)
         normFrequencyDict = self.normQueryTF(freqDict, numTerms)
@@ -123,10 +131,12 @@ class Query:
     def parseQuery(self, query, invIndex):
         #Both handlers return the respective TF_IDFs
         #docTF_IDF can be run once after crawl
-        #docTF_IDF = invIndex.docHandler(invIndex)
+
+        tfidf = TFIDF()
+        docTF_IDF = tfidf.docHandler(invIndex, 0)
 
         queryTF_IDF = self.queryHandler(query, invIndex)
-        cosSimByDoc = self.cosSimilarityHandler(invIndex.docTF_IDF, queryTF_IDF)
+        cosSimByDoc = self.cosSimilarityHandler(docTF_IDF, queryTF_IDF)
         print "Cosine Similarity by document:", cosSimByDoc
         return cosSimByDoc
 
