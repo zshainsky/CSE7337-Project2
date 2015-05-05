@@ -88,6 +88,16 @@ docID			TERM1 	TERM2	TERM3
 11	     	     0        0       2 
 12            	 1        4       0
 
+---------------------------------------------
+|  Stopped here because I was not sure if   |
+|  you (Zack) had already done this.  This  |
+|  is not going to be difficult to implement|
+|  at all and we can build a method to do   |
+|  so quite easily I believe.  Let me know  |
+|  if this is supposed to have tf-idf. Tks  |
+---------------------------------------------
+
+
 *********************
 ANSWER TO QUESTION 3:
 *********************
