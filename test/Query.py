@@ -3,7 +3,7 @@ from copy import deepcopy
 import math
 
 from InvertedIndex import InvertedIndex
-#from Parser import Parser
+from Parser import Parser
 from tfidf import TFIDF
 
 
@@ -16,6 +16,16 @@ class Query:
         self.invIndex = InvertedIndex()
         self.tfidf = TFIDF()
         self.query = queryString
+
+    ###################### Other Functions ######################
+    def removeMissingQueryTerms(self, queryList, invIndex):
+        removedWords = []
+        for word in queryList:
+            isWordInIndex = invIndex.get(word, -1)
+            if isWordInIndex == -1:
+                removedWords.append(word)
+                queryList.remove(word)
+        return removedWords
 
     ###################### Query Functions ######################
     def normQueryTF(self, frequencyDict, numTerms):
@@ -50,16 +60,25 @@ class Query:
 
     def queryHandler(self, query, invIndex):
         print "Initializing Query Handler..."
-        temp = query.split(' ')
+        queryWordList = query.split(' ')
+
         #Remove stop words, clean case/punct, stemm
-        #PARSER FUNCTIONS: parser = Parser()
+        print "Parsing Query Words..."
+        parser = Parser()
+        print parser.fullParse(queryWordList)
+        print "Parsed Query Words..."
+
+        removedWords = self.removeMissingQueryTerms(queryWordList, invIndex)
+        if len(queryWordList) == 0:
+            return -1
+        print "These words were not found and removed from the query: ", removedWords
+        print "Updated Query Words List", queryWordList
 
 
-
-        numTerms = len(temp)
+        numTerms = len(queryWordList)
         numDocs = self.tfidf.findNumDocs(invIndex)
 
-        freqDict = self.calcQueryCollectionFrequency(temp)
+        freqDict = self.calcQueryCollectionFrequency(queryWordList)
         normFrequencyDict = self.normQueryTF(freqDict, numTerms)
 
         #I believe this is always 1 for a query because df is number of docs in collection with term and query is one doc and the only doc in the collection
@@ -131,23 +150,26 @@ class Query:
     def parseQuery(self, query, invIndex):
         #Both handlers return the respective TF_IDFs
         #docTF_IDF can be run once after crawl
-
         tfidf = TFIDF()
         docTF_IDF = tfidf.docHandler(invIndex, 0)
 
         queryTF_IDF = self.queryHandler(query, invIndex)
+        if queryTF_IDF == -1:
+            print "No words from your search were found in any documents...Please try new search terms!"
+            return -1
+
         cosSimByDoc = self.cosSimilarityHandler(docTF_IDF, queryTF_IDF)
         print "Cosine Similarity by document:", cosSimByDoc
         return cosSimByDoc
 
 
-    '''
+
     def printDictionaries(self, d):
         print "{:<8} {:<10}".format('DocID ,','Number')
         for k, v in d.iteritems():
             num = v
             print "{:<8}{:<10}".format(k, num)
-    '''
+
     #temp = createTermFrequencyMatrix(invIndex)
     #printDictionaries(temp)
     #cosineSimilarityByDocument = parseQuery(query, invIndex)

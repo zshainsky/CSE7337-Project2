@@ -223,18 +223,18 @@ def parseQuery(query, invIndex):
     tempTFIDF = TFIDF()
     queryObj = Query(query)
 
-    docTF_IDF = tempTFIDF.docHandler(invIndex, 0)
-    queryTF_IDF = queryObj.queryHandler(queryObj.query, invIndex)
-    cosSimByDoc = queryObj.cosSimilarityHandler(docTF_IDF, queryTF_IDF)
-    print cosSimByDoc
-    print "Cosine Similarity by document:", cosSimByDoc
-    return cosSimByDoc
+    #docTF_IDF = tempTFIDF.docHandler(invIndex, 0)
+    #queryTF_IDF = queryObj.queryHandler(queryObj.query, invIndex)
+    #cosSimByDoc = queryObj.cosSimilarityHandler(docTF_IDF, queryTF_IDF)
+    #print cosSimByDoc
+    #print "Cosine Similarity by document:", cosSimByDoc
+    #return cosSimByDoc
 
 def printDictionaries(d):
     print "{:<8} {:<10}".format('DocID ,','Number')
-    for k, v in d.iteritems():
-        num = v
-        print "{:<8}{:<10}".format(k, num)
+    for key, value in d.iteritems():
+        num = value
+        print "{:<8}{:<10}".format(key, num)
 
 #temp = createTermFrequencyMatrix(invIndex)
 #printDictionaries(temp)

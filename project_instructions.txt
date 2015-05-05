@@ -117,7 +117,7 @@ ANSWER TO QUESTION 3:
 ANSWER TO QUESTION 4:
 *********************
 
-     =P  =P  =P
+ The words that are entered by the user that are not found in our index of words will be removed from the list of query terms and ignored. The words that are not found will be outputted to the user with this message: “These words were not found and removed from the query:  ['test’]”. This message indicates that the words ‘test’ was not found in our word index. If no words from the user’s search were found in any of the documents than the user is alerted with this message: “No words from your search were found in any documents... Please try new search terms!”, and prompted to enter a new search.
 
 *********************
 5.	Compute the cosine similarity of the query against all documents. Display the measure and document URL in descending numerical order for the top N results. What value of N would you pick?  GRADUATE STUDENTS: Also include in the display, the first 20 words of the document. If you stemmed the words, this can be the stemmed version. [40 points]
@@ -127,6 +127,11 @@ ANSWER TO QUESTION 4:
 ANSWER TO QUESTION 5:
 *********************
 
-     =P  =P  =P
+  We have decided to display up to 10 results as our N value. The relevant documents will be displayed in descending order starting with the most relevant (highest cosine similarity). We have those N to be 10 because this is around the standard for all of the industry leading search engines, Google, Yahoo, Bing. Excluding advertisements, all three of these search engines output between 9 and 11 links to articles on each page of every search.
 
 *********************
+
+
+
+
+
