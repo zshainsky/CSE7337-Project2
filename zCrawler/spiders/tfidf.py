@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 """
+https://github.com/hrs/python-tf-idf/blob/master/tfidf.py
 The simplest TF-IDF library imaginable.
 Add your documents as two-element lists `[docname, [list_of_words_in_the_document]]` with `addDocument(docname, list_of_words)`. Get a list of all the `[docname, similarity_score]` pairs relative to a document by calling `similarities([list_of_words])`.
 See the README for a usage example.
+
 """
 
 import sys
@@ -29,15 +31,15 @@ class tfidf:
   def addDocument(self, doc_name, list_of_words):
     # building a dictionary
     doc_dict = {}
-    for w in list_of_words:
-      doc_dict[w] = doc_dict.get(w, 0.) + 1.0
+    for word in list_of_words:
+      doc_dict[word] = doc_dict.get(word, 0.) + 1.0
       
       #Generates the Corpus with a dictionary containing [document frequency, term frequency] as the value of each key
-      self.corpus_dict[w] = self.corpus_dict.get(w, [0,0])
-      self.corpus_dict[w][0] += 1
+      self.corpus_dict[word] = self.corpus_dict.get(word, [0,0])
+      self.corpus_dict[word][0] += 1
 
-    for w in doc_dict:
-      self.corpus_dict[w][1] +=1
+    for word in doc_dict:
+      self.corpus_dict[word][1] +=1
 
     # normalizing the dictionary
     length = float(len(list_of_words))
@@ -72,9 +74,9 @@ class tfidf:
 
   def printCorpusTable(self):
     temp = sorted(self.corpus_dict.items(), key=operator.itemgetter(1), reverse=True)
-    # print "CORPUS TABLE:", temp, "  LENGTH:  ", len(temp)
-    # for index in range(0,20):
-    #   print temp[index]
+    print "CORPUS TABLE:", temp, "  LENGTH:  ", len(temp)
+    for index in range(0,20):
+       print temp[index]
 
   def outputCorpusTable(self):
     temp = sorted(self.corpus_dict.items(), key=operator.itemgetter(1), reverse=True)

@@ -4,12 +4,6 @@ http://www.gedpage.com/soundex.html
 http://www.articles-about-spam.com/outlook-software-junk.shtml
 http://www.wessa.net/rwasp_hierarchicalclustering.wasp
 http://www.smu.edu/EnrollmentServices/Registrar/Enrollment/FinalExamSchedule/Spring2015
-http://java-source.net/open-source/crawlers
-http://code.google.com/p/crawler4j/
-http://download.oracle.com/javase/tutorial/essential/regex/index.html
-http://htmlparser.sourceforge.net/
-http://download.oracle.com/javase/tutorial/networking/urls/index.html
-http://www.robotstxt.org/robotstxt.html
 http://tartarus.org/~martin/PorterStemmer/
 http://en.wikipedia.org/wiki/Document_classification
 http://en.wikipedia.org/wiki/Stop_words
@@ -17,3 +11,9 @@ http://en.wikipedia.org/wiki/Tf*idf
 http://lucene.apache.org/core/
 http://search.carrot2.org/stable/search
 http://9ol.es/porter_js_demo.html
+http://java-source.net/open-source/crawlers
+http://code.google.com/p/crawler4j/
+http://download.oracle.com/javase/tutorial/essential/regex/index.html
+http://htmlparser.sourceforge.net/
+http://download.oracle.com/javase/tutorial/networking/urls/index.html
+http://www.robotstxt.org/robotstxt.html

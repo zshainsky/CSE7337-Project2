@@ -15,6 +15,7 @@ import tfidf
 import os
 import io, json
 import operator
+import InvertedIndex
 
 
 SLEEP_TIME = 1
@@ -27,6 +28,7 @@ class zackSpider(scrapy.Spider):
     start_urls = ["http://lyle.smu.edu/~fmoore/"]
     handle_httpstatus_list = [404]
     table = tfidf.tfidf()
+    inverted_index = InvertedIndex.InvertedIndex()
 
     def __init__(self):
         self.doc_id = 0
@@ -41,6 +43,7 @@ class zackSpider(scrapy.Spider):
         self.pdf = re.compile('\.pdf')
         self.ppt = re.compile('\.ppt')
         self.pptx = re.compile('\.pptx')
+        self.xslx = re.compile('\.xslx')
 
         self.all_links = []
         self.broken_links = []
@@ -71,12 +74,12 @@ class zackSpider(scrapy.Spider):
         if response.status == 200: 
             self.doc_id = self.doc_id + 1
             selector = Selector(response)
-            bodyText = ''.join(response.xpath("//body//text()").extract()).strip().split()
+            bodyText = ''.join(response.xpath("//body//text()").extract()).strip()
             self.parse_page(self.doc_id, self.cur_link, bodyText)
             self.addToVisitedList(self.cur_link)
             for relative_url in links:
                 # IF THESE ARE DOCUMENTS, MARK THEM AS VISITED B/C WE WILL NOT SCRAPE THEM, BUT WE WANT TO TRACK THE LINK, AND THEY WILL CAUSE ERRORS BELOW
-                if (re.search(self.pdf, relative_url) or re.search(self.ppt, relative_url) or re.search(self.pptx, relative_url) ):
+                if (re.search(self.pdf, relative_url) or re.search(self.ppt, relative_url) or re.search(self.pptx, relative_url) or re.search(self.xslx, relative_url)):
                     if re.match(r'^http(s?)://lyle\.smu\.edu\/\~fmoore', relative_url):
                         self.addToDocsList(relative_url)
                     else:
@@ -116,9 +119,11 @@ class zackSpider(scrapy.Spider):
         self.output_CrawlerResults("LinksToDocuments", self.document_links)
         self.output_CrawlerResults("UniqueImageLinks", self.unique_images)
         self.output_CrawlerResults("TotalImageLinks", self.image_links)
-        self.table.outputCorpusTable()
-        self.table.outputTop20Words()
-        self.table.graphTop20()
+        # self.table.outputCorpusTable()
+        # self.table.outputTop20Words()
+        # self.table.graphTop20()
+        self.inverted_index.printInvertedIndex()
+        self.inverted_index.printCollectionsIndex()
 
         self.all_links = []
         self.cur_fmoore_links = []
@@ -131,9 +136,10 @@ class zackSpider(scrapy.Spider):
         item['doc_id'] = doc_id
         #tempwords = self.remove_tags(bodyText)
         if len(bodyText) > 0:
-            self.table.addDocument(doc_id, bodyText)
-        self.table.generateCorpusTable()
-        self.table.printCorpusTable()
+            # self.table.addDocument(doc_id, bodyText)
+            self.inverted_index.addDocument(url, bodyText)
+        # self.table.generateCorpusTable()
+        # self.table.printCorpusTable()
         self.PageItems.append(item)
 
 
