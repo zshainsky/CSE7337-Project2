@@ -11,7 +11,7 @@ import urlparse
 import time
 import lxml
 from lxml.html.clean import clean_html, Cleaner
-import tfidf
+# import tfidf
 import os
 import io, json
 import operator
@@ -27,7 +27,7 @@ class zackSpider(scrapy.Spider):
     allowed_domains = ["lyle.smu.edu"]
     start_urls = ["http://lyle.smu.edu/~fmoore/"]
     handle_httpstatus_list = [404]
-    table = tfidf.tfidf()
+    # table = tfidf.tfidf()
     inverted_index = InvertedIndex.InvertedIndex()
 
     def __init__(self):

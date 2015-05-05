@@ -24,7 +24,7 @@ class Parser:
         stopped = self.stemWords(cleaned)
         return stopped
 
-   def stemWords(self, words_list):
+    def stemWords(self, words_list):
         stemmed = []
         for word in words_list:
             word = self.stemmer.stem(word, 0, len(word)-1)

@@ -4,6 +4,8 @@
 
 import collections
 from Parser import Parser
+from TFIDF import TFIDF 
+
 
 STOPWORDS_FILE = "stopWords.txt"
 
@@ -15,6 +17,7 @@ class InvertedIndex:
         self.collections_index = {}
         self.unique_id = 0  # for assigning doc ID to docs held in the collections index
         self.parser = Parser()
+        self.tfidf = {} 
 
     '''
     # doc_name == url
@@ -32,8 +35,16 @@ class InvertedIndex:
         # remove stopWords, to lower case, clean punctuation symbols, and stem
         parsedWords = self.parser.fullParse(input_text)
 
-        #store words in index
+        # store words in index
         self.addWordsToInvertedIndex(parsedWords)
+
+        # this is the main starting function of the tfidf class
+        # self.unique_id -- at this point -- is equivalent to len(collections_index)
+        self.calcTFIDF()
+
+    def calcTFIDF(self):
+        t = TFIDF()
+        self.tfidf = t.docHandler(self.inverted_index, self.unique_id)
 
  
     
