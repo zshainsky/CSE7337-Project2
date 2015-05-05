@@ -15,13 +15,28 @@ doc1 = "This is box one"
 doc2 = "This is box one This is box one"
 doc3 = "This is one collection of stuff in a box"
 invIndex = {'This': {1: 1, 2: 2, 3: 1}, 'is': {1: 1, 2: 2, 3: 1}, 'box': {1: 1, 2: 2, 3: 1}, 'one': {1: 1, 2: 2, 3: 1}, 'collection': {3: 1}, 'of': {3: 1}, 'stuff': {3: 1}, 'in': {3: 1}, 'a': {3: 1}}
-query = "box collection"
+query = "box one"
+
+##################### Question 3 Function ######################
+def createTermFrequencyMatrix(invIndex):
+    tempDocMatrix = {}
+    for key, value in invIndex.iteritems():
+        for k, v in value.iteritems():
+            isDocInMatrix = tempDocMatrix.get(k, -1)
+            if isDocInMatrix == -1:
+               tempDocMatrix[k] = {key: v}
+            else:
+                tempDocMatrix[k].update({key: v})
+        print tempDocMatrix
+    print "Final:", tempDocMatrix
+    return tempDocMatrix
+
 
 ###################### Document Functions ######################
 def findNumDocs(invIndex):
     numDocs = 0
-    for key, val in invIndex.iteritems():
-        for k, v in val.iteritems():
+    for key, value in invIndex.iteritems():
+        for k, v in value.iteritems():
             if k > numDocs:
                 numDocs = k
     return numDocs
@@ -89,6 +104,7 @@ def docHandler(invIndex):
     print "Initializing Document Handler..."
     return calcTF_IDF(invIndex)
 
+
 ###################### Query Functions ######################
 def normQueryTF(frequencyDict, numTerms):
     for key, val in frequencyDict.iteritems():
@@ -122,6 +138,8 @@ def calcQueryTF_IDF(normFrequencyDict, queryIDF):
 def queryHandler(query, invIndex):
     print "Initializing Query Handler..."
     temp = query.split(' ')
+    #Remove stop words, clean case/punct, stemm
+
     numTerms = len(temp)
     numDocs = findNumDocs(invIndex)
 
@@ -135,7 +153,7 @@ def queryHandler(query, invIndex):
 
     return queryTF_IDF
 
-###################### Document & Query Functions ######################
+###################### Cosine Similarity Functions ######################
 def calcQueryDocDotProduct(docTF_IDF, queryTF_IDF):
     docDotProducts = {}
     dotProd = 0
@@ -196,13 +214,39 @@ def cosSimilarityHandler(docTF_IDF, queryTF_IDF):
 
 def parseQuery(query, invIndex):
     #Both handlers return the respective TF_IDFs
+    #docTF_IDF can be run once after crawl
     docTF_IDF = docHandler(invIndex)
     queryTF_IDF = queryHandler(query, invIndex)
     cosSimByDoc = cosSimilarityHandler(docTF_IDF, queryTF_IDF)
     print "Cosine Similarity by document:", cosSimByDoc
     return cosSimByDoc
 
+def printDictionaries(d):
+    print "{:<8} {:<10}".format('DocID ,','Number')
+    for k, v in d.iteritems():
+        num = v
+        print "{:<8}{:<10}".format(k, num)
+
+#temp = createTermFrequencyMatrix(invIndex)
+#printDictionaries(temp)
+#cosineSimilarityByDocument = parseQuery(query, invIndex)
 
 
-cosineSimilarityByDocument = parseQuery(query, invIndex)
+
+def main():
+    #All Crawling here!
+    #InvIndex()
+
+
+    #Infinate loop
+    while(1):
+        query = raw_input("Please enter a query: ")
+        print "Your query is:", query
+
+        parseQuery(query, invIndex)
+        print
+
+
+if __name__ == "__main__":
+    main()
 
