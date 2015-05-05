@@ -14,35 +14,17 @@ class Parser:
         self.stopWordsList = []
         self.loadStopWords()
 
+
+    '''
+    words_list is an array
+    '''
     def fullParse(self, words_list):
         stopped = self.removeStopWords(words_list)
         cleaned = self.cleanCaseAndPunctuation(stopped)
         stopped = self.stemWords(cleaned)
         return stopped
-        
 
-    '''
-    used by self.fullParse function
-    '''
-    def _removeStopWords(self):
-        for word in self.parseWordList:
-            word = ''.join(filter(lambda word: word not in self.stopWordsList, word.strip()))
-
-    def _stemWords(self):
-        for word in self.parseWordList:
-            word = self.stemmer.stem(word, 0, len(word)-1)
-
-    def _cleanCaseAndPunctuation(self):
-        for word in self.parseWordList:
-            word = word.lower()
-            if not word.startswith('http'):
-                word = ''.join([c for c in word if c not in self.remove_punctuation_set])
-                
-
-    '''
-    for external calls
-    '''
-    def stemWords(self, words_list):
+   def stemWords(self, words_list):
         stemmed = []
         for word in words_list:
             word = self.stemmer.stem(word, 0, len(word)-1)
