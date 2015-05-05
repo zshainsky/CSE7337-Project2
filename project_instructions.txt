@@ -39,12 +39,44 @@ Our Structure:  [FOR INVERTED INDEX ---> word: [[docID, termFreq], [docID, termF
 
 Also create 'docID table' which contains a unique docID, associated url, and first twenty words of the document.
 
+*********************
+ANSWER TO QUESTION 1:
+*********************
+Previously in project one, we saved our corpus of words in a text file along with the total number of times a word appeared across all documents, and the total number of documents in which the term appeared.  See illustration below:
+
+  ## PROJECT 1 OUTPUT ##
+	'Spring', [7, 4]
+	'at', [7, 4]
+	'for', [6, 6]
+	'Web', [6, 5]
+	'CSE', [6, 3]
+	'Moore', [6, 3]
+
+
+For project two, we have taken it a step further by capturing the word in an inverted index with each unique word having a posting list identifying the document id in which a term appeared, and how many times it appeared in that particular document.  See illustration below:
+
+  ## PROJECT 2 OUTPUT ##
+ // PLACE EXAMPLE HERE
+
+ As you can see, we also are using unique document id's to reference each separate document.  These are tracked within a collections index bearing the unique id, the associated url, and the first twenty words captured from the scrape.  See illustration below:
+
+   ## COLLECTIONS INDEX ##
+ // PLACE EXAMPLE HERE
+
+
+Both the collections index and the inverted index are held in python dictionaries, with each term in the inverted index serving as the key, and the associated value to that key is a set object containing the list of unique document id's where that key is found, and the frequency with respect to that key.  We chose to use a set here because it forces only unique keys.
+
+**********************
 
 2.	You will need a dictionary of words.  What is your definition of “word”? Will you generate the dictionary while navigating the pages or as a separate step? Explain your approach. If needed, you can define a fixed size for the dictionary based upon the results from Project1, and allowing for a 10% increase. [20 points]
 
-Don't need a fixed size because of python dynamic sizing.
-Stop and stem words (after first twenty words saved).
-As part of stopping and stemming, remove symbols.
+*********************
+ANSWER TO QUESTION 2:
+*********************
+
+Because we are using Python, we do not need to decide on a fixed size data structure.  Python handles dynamic sizing quite well.  Before building our index, we save the first twenty words from each page into the collections index.  To construct our inverted index, we decided to first remove symbols and case from our text yielded by the scraping mechanism.  Subsequently, we decided to remove many of the more frequently used, but meaningless words found on the internet today, such as and, the, is, be, etc.  Our stop words are held in a text file in the directory and and loaded into a set upon initializing an inverted index model.  After we removed the stop words, we ran our final list through the porterStemmer to stem the words to the roots.
+
+*********************
 
 
 3.	For purposes of this project, you may assume a maximum of 20 documents. You will need to create a term frequency matrix for all documents. [20 points]
@@ -56,10 +88,35 @@ docID			TERM1 	TERM2	TERM3
 11	     	     0        0       2 
 12            	 1        4       0
 
+*********************
+ANSWER TO QUESTION 3:
+*********************
+
+     =P  =P  =P
+
+*********************
 
 -----------------
       ZACK
 -----------------
 
 4.	The user should be able to enter multiple queries, consisting of one or more query words separated by space.  What happens if a user enters a word that is not in the dictionary? [10 points]
+
+
+*********************
+ANSWER TO QUESTION 4:
+*********************
+
+     =P  =P  =P
+
+*********************
 5.	Compute the cosine similarity of the query against all documents. Display the measure and document URL in descending numerical order for the top N results. What value of N would you pick?  GRADUATE STUDENTS: Also include in the display, the first 20 words of the document. If you stemmed the words, this can be the stemmed version. [40 points]
+
+
+*********************
+ANSWER TO QUESTION 5:
+*********************
+
+     =P  =P  =P
+
+*********************
