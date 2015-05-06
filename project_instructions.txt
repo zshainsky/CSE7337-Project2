@@ -27,44 +27,35 @@ http://lyle.smu.edu/~fmoore
 
 1.	Use the web crawler you built in Project 1 that crawled a limited space, looking for text and html files. You will probably need to modify how you saved the words from the pages that you traversed to support this query engine. Describe in detail what you changed to support the saving of words for this project. [10 points]
 
-Notes:
-------
-We only previously saved the term frequency and document frequency (restate format, etc.).  Add inverted index – stop words
-
-Our Structure:  [FOR INVERTED INDEX ---> word: [[docID, termFreq], [docID, termFreq]]
-	{
-	 'a': [[1,2]],
-	 'banana': [[3,4], [5,2]]
-	 }
-
-Also create 'docID table' which contains a unique docID, associated url, and first twenty words of the document.
-
 *********************
 ANSWER TO QUESTION 1:
 *********************
-Previously in project one, we saved our corpus of words in a text file along with the total number of times a word appeared across all documents, and the total number of documents in which the term appeared.  See illustration below:
+Previously in project one, we saved our corpus of words along with a term frequency and document frequency for each word. All of these values were stored in a text file after our spider completed running. See illustration below:
 
   ## PROJECT 1 OUTPUT ##
-	'Spring', [7, 4]
-	'at', [7, 4]
-	'for', [6, 6]
-	'Web', [6, 5]
-	'CSE', [6, 3]
-	'Moore', [6, 3]
+'Spring', [7, 4]
+'at', [7, 4]
+'for', [6, 6]
+'Web', [6, 5]
+'CSE', [6, 3]
+'Moore', [6, 3]
 
 
-For project two, we have taken it a step further by capturing the word in an inverted index with each unique word having a posting list identifying the document id in which a term appeared, and how many times it appeared in that particular document.  See illustration below:
+For project two, we have taken it a step further by capturing the words in an inverted index. The inverted index contains each unique word as the key to the value of an other dictionary. This value dictionary contains key value pairs of the document id and the term frequency for that document. We also decided to stem, remove stop words, and remove punctuation from our index. See illustration below:
 
   ## PROJECT 2 OUTPUT ##
- // PLACE EXAMPLE HERE
+troue {6: 1}s'ncrustent {6: 1}freemn {1: 3, 10: 3, 11: 3}moor {1: 3, 10: 3, 11: 3}tme {9: 3}méchnt {6: 1}plbr {6: 1}ssgned {9: 1, 2: 7, 4: 1}prob {9: 14}pued {6: 1}t {3: 3, 1: 2, 10: 2, 11: 2, 9: 7}bd {9: 2, 2: 1}be {1: 1, 2: 1, 4: 1, 6: 3, 8: 1, 9: 10, 10: 1, 11: 1}plu {6: 2}retrel {2: 2}dmnstrtor {1: 1, 10: 1, 11: 1}
 
- As you can see, we also are using unique document id's to reference each separate document.  These are tracked within a collections index bearing the unique id, the associated url, and the first twenty words captured from the scrape.  See illustration below:
+ As you can see, we also are using unique document id's to reference each separate document.  These are tracked within a collections index bearing the unique id, the associated url, and the first twenty words captured from the scrape. This is the cached version of these documents which is generated during our web crawlers execution. See illustration below:
 
-   ## COLLECTIONS INDEX ##
- // PLACE EXAMPLE HERE
+  ## COLLECTIONS INDEX ##
+5 ['http://lyle.smu.edu/~fmoore/notes/review1a.htm', u'This presentation contains content that your browser may not be able to show']6 ['http://lyle.smu.edu/~fmoore/misc/bayes.html', u'Training section These four areas contained four canned paragraphs. Two Spanish and two French. They can be used to seed']7 ['http://lyle.smu.edu/~fmoore/misc/porter_stemmer_example.html', u'Javascript Porter Stemmer Online Find out more about the Porter Stemming algorithm at the official site. Example: Do you really']
 
 
-Both the collections index and the inverted index are held in python dictionaries, with each term in the inverted index serving as the key, and the associated value to that key is a set object containing the list of unique document id's where that key is found, and the frequency with respect to that key.  We chose to use a set here because it forces only unique keys.
+Both the collections index and the inverted index are held in python dictionaries. Each term in the inverted index serves as the key. The value to the key (term) is another object that contains the document id and term frequency in the document as a key value pair. There can be multiple documentID, term frequency key value pairs in this object. We chose to use a dictionary here because, like a set, it forces only unique keys.
+
+We have not modified our crawler to allow for the storing and presentation of broken links, .pdf, .ppt, or .xlsx files. This limits the number of documents that our crawler finds to 11 total documents (0-10). We decided at the beginning of project 2 that this filtering functionality we implemented in project 1 should persist for a better user experience query results are displayed.
+
 
 **********************
 
@@ -74,35 +65,30 @@ Both the collections index and the inverted index are held in python dictionarie
 ANSWER TO QUESTION 2:
 *********************
 
-Because we are using Python, we do not need to decide on a fixed size data structure.  Python handles dynamic sizing quite well.  Before building our index, we save the first twenty words from each page into the collections index.  To construct our inverted index, we decided to first remove symbols and case from our text yielded by the scraping mechanism.  Subsequently, we decided to remove many of the more frequently used, but meaningless words found on the internet today, such as and, the, is, be, etc.  Our stop words are held in a text file in the directory and and loaded into a set upon initializing an inverted index model.  After we removed the stop words, we ran our final list through the porterStemmer to stem the words to the roots.
+Because we are using Python, we do not need to decide on a fixed size data structure.  Python handles dynamic sizing quite well.  Before building our index, we save the first twenty words from each page into the collections index. Our inverted index is first constructed as our crawler is running. To construct our inverted index, we decided to first remove symbols and case from our text yielded by the Scrapy, our python scraping library.  Subsequently, we decided to remove many of the more frequently used, but meaningless words, stop words, found on the internet today, such as and, the, is, be, etc.  Our stop words are held in a text file in the directory and are loaded into a set upon initializing an inverted index model.  After we removed the stop words, we ran our final list through the porterStemmer to stem the words to the roots. 
+
+Upon the completion of our crawler the inverted index is written to a file. After the inverted index is written to a file it is then read back in by our Engine class to get a copy of the inverted index in the scope of our searching functions. Due to the nature of Scrapy we found that this was the easiest way to get our index back into scope. Scoping was a big problem for our team!! Although this was a problem and it would have been nice to be able to run our searching gui within the same scope as our crawler it allows us to cache and update our inverted index if needed at a later date without initializing the entire search functionality. Moving forward, this could give us a significant advantage to be able update our cache of words independently of our search engine functionality.
+
+Definition of “word”
 
 *********************
 
 
 3.	For purposes of this project, you may assume a maximum of 20 documents. You will need to create a term frequency matrix for all documents. [20 points]
 
-Notes:
-------
-Term Frequency matrix
-docID			TERM1 	TERM2	TERM3
-11	     	     0        0       2 
-12            	 1        4       0
 
----------------------------------------------
-|  Stopped here because I was not sure if   |
-|  you (Zack) had already done this.  This  |
-|  is not going to be difficult to implement|
-|  at all and we can build a method to do   |
-|  so quite easily I believe.  Let me know  |
-|  if this is supposed to have tf-idf. Tks  |
----------------------------------------------
-
+Below is a sample of our term frequency matrix:
 
 *********************
 ANSWER TO QUESTION 3:
 *********************
 
-     =P  =P  =P
+Word                                          Doc 0   Doc 1   Doc 2   Doc 3   Doc 4   Doc 5   Doc 6   Doc 7   Doc 8   Doc 9   Doc 10    eplor                                            0       0       0       0       1       0       0       0       0       0       0  gq                                               0       0       2       0       0       0       0       0       0       0       0  nsted                                            0       0       0       0       0       0       0       0       0       1       0  mplementton                                      0       0       1       0       0       0       0       0       0       0       0  rod                                              0       0       0       0       0       0       0       0       0       1       0  four                                             0       0       0       0       0       0       0       2       0       0       0  ge                                               0       0       0       0       0       0       0       0       0       1       0  code                                             0       0       0       0       0       0       0       1       0       0       0  troue                                            0       0       0       0       0       0       0       1       0       0       0  go                                               0       0       0       0       0       0       0       0       0       1       0  herrchcl                                         0       1       0       0       0       0       0       0       0       0       0  flse                                             0       0       0       0       0       0       0       0       0       1       0  s'ncrustent                                      0       0       0       0       0       0       0       1       0       0       0  deport                                           0       0       0       0       0       0       0       1       0       0       0  mng                                              0       0       0       0       0       0       0       0       0       1       0  const                                            0       0       0       0       0       0       0       0       0       4       0  functoncl                                        0       0       0       0       0       0       0       0       0       2       0  thswordswrd                                      0       0       0       0       0       0       0       0       0       1       0 
+ .
+ .
+ .
+ .
+
 
 *********************
 
