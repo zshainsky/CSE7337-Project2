@@ -59,14 +59,17 @@ class Query:
         return tf_idf
 
     def queryHandler(self, query, invIndex):
-        print "Initializing Query Handler..."
+        # print "Initializing Query Handler..."
         queryWordList = query.split(' ')
-
+        # print "Query Word List after split"
+        # print queryWordList
         #Remove stop words, clean case/punct, stemm
         print "Parsing Query Words..."
         parser = Parser()
-        print parser.fullParse(queryWordList)
-        print "Parsed Query Words..."
+        queryWordList = parser.fullParse(queryWordList)
+        # print "Query Word List after parse"
+        # print queryWordList
+        # print "Parsed Query Words..."
 
         removedWords = self.removeMissingQueryTerms(queryWordList, invIndex)
         if len(queryWordList) == 0:
@@ -151,15 +154,16 @@ class Query:
         #Both handlers return the respective TF_IDFs
         #docTF_IDF can be run once after crawl
         tfidf = TFIDF()
+        # print invIndex
         docTF_IDF = tfidf.docHandler(invIndex, 0)
-
+        # print docTF_IDF
         queryTF_IDF = self.queryHandler(query, invIndex)
         if queryTF_IDF == -1:
             print "No words from your search were found in any documents...Please try new search terms!"
             return -1
 
         cosSimByDoc = self.cosSimilarityHandler(docTF_IDF, queryTF_IDF)
-        print "Cosine Similarity by document:", cosSimByDoc
+        # print "Cosine Similarity by document:", cosSimByDoc
         return cosSimByDoc
 
 

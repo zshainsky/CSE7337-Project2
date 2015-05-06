@@ -23,16 +23,32 @@ query = "box one"
 
 ##################### Question 3 Function ######################
 def createTermFrequencyMatrix(invIndex):
+    numDocs = 3
     tempDocMatrix = {}
     for key, value in invIndex.iteritems():
+        wordFreq = [0] * numDocs
         for k, v in value.iteritems():
-            isDocInMatrix = tempDocMatrix.get(k, -1)
-            if isDocInMatrix == -1:
-               tempDocMatrix[k] = {key: v}
-            else:
-                tempDocMatrix[k].update({key: v})
-        print tempDocMatrix
+            wordFreq[k-1] = v
+        tempDocMatrix[key] = wordFreq
+
     print "Final:", tempDocMatrix
+    print "********************"
+    print ""
+    # print "{:<40} {:<20} {:<20}" .format (" ", "DOCUMENTS", " ")
+    docHeading = ""
+    for i in range (0, numDocs):
+        docHeading = docHeading + "Doc " + str(i) + "   "
+
+    print "{:<25} {:<60}".format('Word', docHeading)
+    for word, freq in tempDocMatrix.iteritems():
+        frequency = " "
+        for i in range(0, len(freq)):
+            frequency += "       "
+            frequency += str(freq[i])
+
+        print "{:<20} {:<60} ".format(word, frequency)
+
+
     return tempDocMatrix
 
 '''
@@ -245,7 +261,7 @@ def printDictionaries(d):
 def main():
     #All Crawling here!
     #InvIndex()
-
+    createTermFrequencyMatrix(invIndex)
 
     #Infinate loop
     while(1):

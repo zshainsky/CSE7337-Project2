@@ -5,7 +5,7 @@ from scrapy.http import Request
 from scrapy.spider import Spider
 from scrapy.selector import Selector
 from scrapy.utils.response import get_base_url
-from zCrawler.items import PageItem
+
 import re
 import urlparse
 import time
@@ -15,7 +15,16 @@ from lxml.html.clean import clean_html, Cleaner
 import os
 import io, json
 import operator
-import InvertedIndex
+from zCrawler.InvertedIndex import InvertedIndex
+
+# spiderDirectory = "spiders"
+# cwd = os.getcwd()
+# currentDirectory = cwd.split('/')[-1]
+# print "currentDirectory: " + currentDirectory
+# if spiderDirectory == currentDirectory:
+#     from zCrawler.items import PageItem
+# else:
+#     from items import PageItem
 
 
 SLEEP_TIME = 1
@@ -28,7 +37,7 @@ class zackSpider(scrapy.Spider):
     start_urls = ["http://lyle.smu.edu/~fmoore/"]
     handle_httpstatus_list = [404]
     # table = tfidf.tfidf()
-    inverted_index = InvertedIndex.InvertedIndex()
+    inverted_index = InvertedIndex()
 
     def __init__(self):
         self.doc_id = 0
@@ -122,8 +131,9 @@ class zackSpider(scrapy.Spider):
         # self.table.outputCorpusTable()
         # self.table.outputTop20Words()
         # self.table.graphTop20()
-        self.inverted_index.printInvertedIndex()
-        self.inverted_index.printCollectionsIndex()
+        # self.inverted_index.printInvertedIndex()
+        self.inverted_index.pickleThis()
+        # self.inverted_index.printCollectionsIndex()
 
         self.all_links = []
         self.cur_fmoore_links = []
@@ -131,16 +141,16 @@ class zackSpider(scrapy.Spider):
 
     
     def parse_page(self, doc_id, url, bodyText):
-        item = PageItem()
-        item['url'] = url
-        item['doc_id'] = doc_id
+        # item = PageItem()
+        # item['url'] = url
+        # item['doc_id'] = doc_id
         #tempwords = self.remove_tags(bodyText)
         if len(bodyText) > 0:
             # self.table.addDocument(doc_id, bodyText)
             self.inverted_index.addDocument(url, bodyText)
         # self.table.generateCorpusTable()
         # self.table.printCorpusTable()
-        self.PageItems.append(item)
+        # self.PageItems.append(item)
 
 
     def all_links(self, response):
@@ -194,8 +204,5 @@ class zackSpider(scrapy.Spider):
         with io.open(RESULTS_DIRECTORY + '/Top20Words.txt', 'w', encoding='utf-8') as f:
             for item in self.table.top20_w:
                 f.write(unicode("%s\n" % item))
-
-    
-
 
 

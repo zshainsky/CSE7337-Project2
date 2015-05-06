@@ -7,8 +7,8 @@ http://lyle.smu.edu/~fmoore/notes/review1a.htm
 http://lyle.smu.edu/~fmoore/misc/mar24-example.xlsx
 http://lyle.smu.edu/~fmoore/misc/bayes.html
 http://lyle.smu.edu/~fmoore/misc/k-means.htm
-http://lyle.smu.edu/~fmoore/misc/bayes.js
-http://lyle.smu.edu/~fmoore/notes/review1a_files/frame.htm
 http://lyle.smu.edu/~fmoore/index.htm
 http://lyle.smu.edu/~fmoore
 http://lyle.smu.edu/~fmoore/misc/broken_link.htm
+http://lyle.smu.edu/~fmoore/notes/review1a_files/frame.htm
+http://lyle.smu.edu/~fmoore/misc/bayes.js

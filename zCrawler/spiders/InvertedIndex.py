@@ -4,8 +4,9 @@
 
 import collections
 from Parser import Parser
-from TFIDF import TFIDF 
+from tfidf import TFIDF 
 
+import pickle
 
 STOPWORDS_FILE = "stopWords.txt"
 

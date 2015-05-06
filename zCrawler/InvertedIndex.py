@@ -6,6 +6,8 @@ import collections
 from Parser import Parser
 from tfidf import TFIDF
 
+import pickle
+
 
 STOPWORDS_FILE = "stopWords.txt"
 
@@ -45,8 +47,6 @@ class InvertedIndex:
     def calcTFIDF(self):
         t = TFIDF()
         self.tfidf = t.docHandler(self.inverted_index, self.unique_id)
-
- 
     
     def extractTwentyWords(self, words_list):
         twenty_words = ''
@@ -82,4 +82,37 @@ class InvertedIndex:
         for key, value in self.inverted_index.iteritems():
             print key, value
 
+    def pickleThis(self):
+        pickle.dump(self.inverted_index, open("Pickled_InvertedIndex.p", "wb"))
+        pickle.dump(self.collections_index, open("Pickled_CollectionsIndex.p", "wb"))
 
+
+    def loadPickles(self):
+        self.inverted_index = pickle.load(open("../zCrawler/Pickled_InvertedIndex.p", "rb"))
+        self.collections_index = pickle.load(open("../zCrawler/Pickled_CollectionsIndex.p", "rb"))
+
+
+    def createTermFrequencyMatrix(self):
+        tempDocMatrix = {}
+        numDocs = len(self.collections_index)
+        for key, value in self.inverted_index.iteritems():
+            wordFreq = [0] * numDocs
+            for k, v in value.iteritems():
+                wordFreq[k-1] = v
+            tempDocMatrix[key] = wordFreq
+
+
+        docHeading = ""
+        for i in range (0, numDocs):
+            docHeading = docHeading + "Doc " + str(i) + "   "
+
+        print "{:45s} {:60s}".format('Word', docHeading)
+        for word, freq in tempDocMatrix.iteritems():
+            frequency = " "
+            for i in range(0, len(freq)):
+                frequency = frequency + "       " + str(freq[i])
+
+            print " %-40s %-60s " % (word.encode('utf-8'), frequency.rjust(5))
+
+
+        return tempDocMatrix
