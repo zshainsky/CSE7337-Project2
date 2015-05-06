@@ -1,4 +1,4 @@
-PROJECT 2 INSTRUCTIONS
+PROJECT 2 
 
 ******************************
 ******** Deliverables ********
@@ -8,6 +8,13 @@ PROJECT 2 INSTRUCTIONS
 2.	A readme file with complete description of used software, installation, compilation and execution instructions OR demonstrations are encouraged, but not required.
 3.	A document with the results for the questions below.
 4.	If you worked in a team than you need a document stating who worked on what.
+	Team Members:  Zack Shainsky, Candie Solis
+	We worked side-by-side on most everything together.  As was the case in the first project, sometimes there are unforeseen roadblocks where we jump in together to sort out a problem.  The way we broke the tasks apart to start was as follows: 
+		Candie - Items 1, 2, 3
+		Zack - 4, 5
+	However, we knew, as did eventually happen, that we jump in and out of each others tasks to help.  We worked collectively on item 3, rebuilding it several times to suit our taste.
+	We have worked well together on both projects this semester.  It was nice to have a good group.
+
 
 ******************************
 ************ Task ************
@@ -33,26 +40,45 @@ ANSWER TO QUESTION 1:
 Previously in project one, we saved our corpus of words along with a term frequency and document frequency for each word. All of these values were stored in a text file after our spider completed running. See illustration below:
 
   ## PROJECT 1 OUTPUT ##
-'Spring', [7, 4]
-'at', [7, 4]
-'for', [6, 6]
-'Web', [6, 5]
-'CSE', [6, 3]
-'Moore', [6, 3]
+	'Spring', [7, 4]
+	'at', [7, 4]
+	'for', [6, 6]
+	'Web', [6, 5]
+	'CSE', [6, 3]
+	'Moore', [6, 3]
 
 
 For project two, we have taken it a step further by capturing the words in an inverted index. The inverted index contains each unique word as the key to the value of an other dictionary. This value dictionary contains key value pairs of the document id and the term frequency for that document. We also decided to stem, remove stop words, and remove punctuation from our index. See illustration below:
 
   ## PROJECT 2 OUTPUT ##
-troue {6: 1}s'ncrustent {6: 1}freemn {1: 3, 10: 3, 11: 3}moor {1: 3, 10: 3, 11: 3}tme {9: 3}méchnt {6: 1}plbr {6: 1}ssgned {9: 1, 2: 7, 4: 1}prob {9: 14}pued {6: 1}t {3: 3, 1: 2, 10: 2, 11: 2, 9: 7}bd {9: 2, 2: 1}be {1: 1, 2: 1, 4: 1, 6: 3, 8: 1, 9: 10, 10: 1, 11: 1}plu {6: 2}retrel {2: 2}dmnstrtor {1: 1, 10: 1, 11: 1}
+	troue {6: 1}
+	s'ncrustent {6: 1}
+	freemn {1: 3, 10: 3, 11: 3}
+	moor {1: 3, 10: 3, 11: 3}
+	tme {9: 3}
+	méchnt {6: 1}
+	plbr {6: 1}
+	ssgned {9: 1, 2: 7, 4: 1}
+	prob {9: 14}
+	pued {6: 1}
+	t {3: 3, 1: 2, 10: 2, 11: 2, 9: 7}
+	bd {9: 2, 2: 1}
+	be {1: 1, 2: 1, 4: 1, 6: 3, 8: 1, 9: 10, 10: 1, 11: 1}
+	plu {6: 2}
+	retrel {2: 2}
+	dmnstrtor {1: 1, 10: 1, 11: 1}
 
  As you can see, we also are using unique document id's to reference each separate document.  These are tracked within a collections index bearing the unique id, the associated url, and the first twenty words captured from the scrape. This is the cached version of these documents which is generated during our web crawlers execution. See illustration below:
 
   ## COLLECTIONS INDEX ##
-5 ['http://lyle.smu.edu/~fmoore/notes/review1a.htm', u'This presentation contains content that your browser may not be able to show']6 ['http://lyle.smu.edu/~fmoore/misc/bayes.html', u'Training section These four areas contained four canned paragraphs. Two Spanish and two French. They can be used to seed']7 ['http://lyle.smu.edu/~fmoore/misc/porter_stemmer_example.html', u'Javascript Porter Stemmer Online Find out more about the Porter Stemming algorithm at the official site. Example: Do you really']
+	5 ['http://lyle.smu.edu/~fmoore/notes/review1a.htm', u'This presentation contains content that your browser may not be able to show']
+
+	6 ['http://lyle.smu.edu/~fmoore/misc/bayes.html', u'Training section These four areas contained four canned paragraphs. Two Spanish and two French. They can be used to seed']
+
+	7 ['http://lyle.smu.edu/~fmoore/misc/porter_stemmer_example.html', u'Javascript Porter Stemmer Online Find out more about the Porter Stemming algorithm at the official site. Example: Do you really']
 
 
-Both the collections index and the inverted index are held in python dictionaries. Each term in the inverted index serves as the key. The value to the key (term) is another object that contains the document id and term frequency in the document as a key value pair. There can be multiple documentID, term frequency key value pairs in this object. We chose to use a dictionary here because, like a set, it forces only unique keys.
+Both the collections index and the inverted index are held in python dictionaries. Each term in the inverted index serves as the key. The value to the key (term) is another object that contains the various document ids and term frequencies in each document (where found) as a key value pair. There can be multiple documentID, term frequency key value pairs in this object. We chose to use a dictionary here because, like a set, it forces only unique keys.
 
 We have not modified our crawler to allow for the storing and presentation of broken links, .pdf, .ppt, or .xlsx files. This limits the number of documents that our crawler finds to 11 total documents (0-10). We decided at the beginning of project 2 that this filtering functionality we implemented in project 1 should persist for a better user experience query results are displayed.
 
@@ -67,12 +93,16 @@ ANSWER TO QUESTION 2:
 
 Because we are using Python, we do not need to decide on a fixed size data structure.  Python handles dynamic sizing quite well.  Before building our index, we save the first twenty words from each page into the collections index. Our inverted index is first constructed as our crawler is running. To construct our inverted index, we decided to first remove symbols and case from our text yielded by the Scrapy, our python scraping library.  Subsequently, we decided to remove many of the more frequently used, but meaningless words, stop words, found on the internet today, such as and, the, is, be, etc.  Our stop words are held in a text file in the directory and are loaded into a set upon initializing an inverted index model.  After we removed the stop words, we ran our final list through the porterStemmer to stem the words to the roots. 
 
-Upon the completion of our crawler the inverted index is written to a file. After the inverted index is written to a file it is then read back in by our Engine class to get a copy of the inverted index in the scope of our searching functions. Due to the nature of Scrapy we found that this was the easiest way to get our index back into scope. Scoping was a big problem for our team!! Although this was a problem and it would have been nice to be able to run our searching gui within the same scope as our crawler it allows us to cache and update our inverted index if needed at a later date without initializing the entire search functionality. Moving forward, this could give us a significant advantage to be able update our cache of words independently of our search engine functionality.
+Upon the completed execution of our crawler, the inverted index and collections index are both written to files using a library called "pickle." After the inverted index is written to a file it is then read back in by our Engine class to get a copy of the inverted index in the scope of our searching functions. Due to the nature of Scrapy we found that this was the easiest way to get our index back into scope. Scoping was a big problem for our team!! Although this was a problem and it would have been nice to be able to run our searching gui within the same scope as our crawler it allows us to cache and update our inverted index if needed at a later date without initializing the entire search functionality. Moving forward, this could give us a significant advantage to be able update our cache of words independently of our search engine functionality.
 
 Definition of “word”
+We chose to first strip any content recovered by the scraper to remove all html code.  We then broke the content apart into lists of words to be considered for adding to the inverted index.  Prior to doing so, we remove all stop words from the list, using a stop words list used in a previous assignment, which contains a strong representation of common insignificant words found in text.  Subsequently, we convert all text to lower case and remove punctuation.  Only then do we pass each word through the popular PorterStemmer for stemming words to root.  So, as you will see below, many of our words may not look like words we know, but our queries are put through the same rigor such that our matching algorithm is comparing apples to apples.
 
 *********************
 
+-----------------
+  CANDIE & ZACK
+-----------------
 
 3.	For purposes of this project, you may assume a maximum of 20 documents. You will need to create a term frequency matrix for all documents. [20 points]
 
@@ -83,7 +113,25 @@ Below is a sample of our term frequency matrix:
 ANSWER TO QUESTION 3:
 *********************
 
-Word                                          Doc 0   Doc 1   Doc 2   Doc 3   Doc 4   Doc 5   Doc 6   Doc 7   Doc 8   Doc 9   Doc 10    eplor                                            0       0       0       0       1       0       0       0       0       0       0  gq                                               0       0       2       0       0       0       0       0       0       0       0  nsted                                            0       0       0       0       0       0       0       0       0       1       0  mplementton                                      0       0       1       0       0       0       0       0       0       0       0  rod                                              0       0       0       0       0       0       0       0       0       1       0  four                                             0       0       0       0       0       0       0       2       0       0       0  ge                                               0       0       0       0       0       0       0       0       0       1       0  code                                             0       0       0       0       0       0       0       1       0       0       0  troue                                            0       0       0       0       0       0       0       1       0       0       0  go                                               0       0       0       0       0       0       0       0       0       1       0  herrchcl                                         0       1       0       0       0       0       0       0       0       0       0  flse                                             0       0       0       0       0       0       0       0       0       1       0  s'ncrustent                                      0       0       0       0       0       0       0       1       0       0       0  deport                                           0       0       0       0       0       0       0       1       0       0       0  mng                                              0       0       0       0       0       0       0       0       0       1       0  const                                            0       0       0       0       0       0       0       0       0       4       0  functoncl                                        0       0       0       0       0       0       0       0       0       2       0  thswordswrd                                      0       0       0       0       0       0       0       0       0       1       0 
+Word                     Doc 0   Doc 1   Doc 2   Doc 3   Doc 4   Doc 5   Doc 6   Doc 7   Doc 8   Doc 9   Doc 10   
+ eplor                       0       0       0       0       1       0       0       0       0       0       0 
+ gq                          0       0       2       0       0       0       0       0       0       0       0 
+ nsted                       0       0       0       0       0       0       0       0       0       1       0 
+ mplementton                 0       0       1       0       0       0       0       0       0       0       0 
+ rod                         0       0       0       0       0       0       0       0       0       1       0 
+ four                        0       0       0       0       0       0       0       2       0       0       0 
+ ge                          0       0       0       0       0       0       0       0       0       1       0 
+ code                        0       0       0       0       0       0       0       1       0       0       0 
+ troue                       0       0       0       0       0       0       0       1       0       0       0 
+ go                          0       0       0       0       0       0       0       0       0       1       0 
+ herrchcl                    0       1       0       0       0       0       0       0       0       0       0 
+ flse                        0       0       0       0       0       0       0       0       0       1       0 
+ s'ncrustent                 0       0       0       0       0       0       0       1       0       0       0 
+ deport                      0       0       0       0       0       0       0       1       0       0       0 
+ mng                         0       0       0       0       0       0       0       0       0       1       0 
+ const                       0       0       0       0       0       0       0       0       0       4       0 
+ functoncl                   0       0       0       0       0       0       0       0       0       2       0 
+ thswordswrd                 0       0       0       0       0       0       0       0       0       1       0 
  .
  .
  .
@@ -103,9 +151,11 @@ Word                                      
 ANSWER TO QUESTION 4:
 *********************
 
- The words that are entered by the user that are not found in our index of words will be removed from the list of query terms and ignored. The words that are not found will be outputted to the user with this message: “These words were not found and removed from the query:  ['test’]”. This message indicates that the words ‘test’ was not found in our word index. If no words from the user’s search were found in any of the documents than the user is alerted with this message: “No words from your search were found in any documents... Please try new search terms!”, and prompted to enter a new search.
+ The words that are entered by the user that are not found in our index of words will be removed from the list of query terms and ignored. The words that are not found will be outputted to the user with this message: “These words were not found and removed from the query:  ['test’]”. This message indicates that the words ‘test’ was not found in our word index. If no words from the user’s search were found in any of the documents than the user is alerted with this message: “No words from your search were found in any documents... Please try new search terms!”, and prompted to enter a new search.  In order to exit the system, you must use ctrl-c to abort the task, or close your terminal window.
 
 *********************
+
+
 5.	Compute the cosine similarity of the query against all documents. Display the measure and document URL in descending numerical order for the top N results. What value of N would you pick?  GRADUATE STUDENTS: Also include in the display, the first 20 words of the document. If you stemmed the words, this can be the stemmed version. [40 points]
 
 
@@ -113,7 +163,23 @@ ANSWER TO QUESTION 4:
 ANSWER TO QUESTION 5:
 *********************
 
-  We have decided to display up to 10 results as our N value. The relevant documents will be displayed in descending order starting with the most relevant (highest cosine similarity). We have those N to be 10 because this is around the standard for all of the industry leading search engines, Google, Yahoo, Bing. Excluding advertisements, all three of these search engines output between 9 and 11 links to articles on each page of every search.
+  We have decided to display up to 10 results as our N value. The relevant documents will be displayed in descending order starting with the most relevant (highest cosine similarity). We have those N to be 10 because this is around the standard for all of the industry leading search engines, Google, Yahoo, Bing. Excluding advertisements, all three of these search engines output between 9 and 11 links to articles on each page of every search.  Our output provides in addition to the document number, the similarity score, and the url, the preview of the first twenty words found in the content scraped from the page.
+
+
+ ## QUERY RESULT ##  **** UNALTERED ****
+
+Query used:  but makeup cluster
+
+The following documents are ranked from highest to lowest similarity for your query: 
+---------------------------------------------------------------------------------------
+Doc   Similarity      Url                                              Preview   
+3     0.7381153983    http://lyle.smu.edu/~fmoore/misc/k-means.htm     K means example: Consider 4 documents d1: { 1, 0, 1, 0} d2: { 1, 1, 1, 0} d3: {
+8     0.5773502692    http://lyle.smu.edu/~fmoore/misc/bayes.js        // These words occur in the english language with enough frequency that they are considered noise. // They will be
+
+
+
+
+
 
 *********************
 
