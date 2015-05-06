@@ -4,19 +4,21 @@ A readme file with complete description of used software, installation, compilat
 Software Used:
 1) Scrapy
 2) Python
-4) Pickle
+3) Pickle
 
 
 Install Instructions:
 Scrapy:
-Please refere to the Scrapy online documentation (http://doc.scrapy.org/en/0.24/intro/install.html#intro-install)
+Please refer to the Scrapy online documentation (http://doc.scrapy.org/en/0.24/intro/install.html#intro-install)
 
 Python:
 Please refer to the Python online documentation (https://www.python.org/downloads/)
 
+ZIP:
+Download our zip file and unpackaged it to allow for a command line interface to go into the files.
 
 Execution Instructions:
-Scrapy:
+Search Engine + Scrapy:
 Enter commands in commandline tool after downloading Scrapy
 1) From the command line/terminal, navigate into the /zCrawler folder
 
