@@ -22,7 +22,7 @@ def main():
         print""
         print""
 
-        invIndex.createTermFrequencyMatrix()
+        # invIndex.createTermFrequencyMatrix()
         queryObj.query = raw_input("Please enter a query for zackSpider: ")
         print "Your query is:", queryObj.query
 
