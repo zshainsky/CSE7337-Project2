@@ -1,4 +1,5 @@
-README
+README —- Splunk knows everything!!!
+
 A readme file with complete description of used software, installation, compilation and execution instructions
 
 Software Used:
